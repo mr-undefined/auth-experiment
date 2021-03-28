@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "cross-env NODE_ENV='development' nodemon -r @babel/register -r @babel/polyfill server/index.js",
     "test": "NODE_ENV=unit-test node -r @babel/register -r @babel/polyfill node_modules/mocha/bin/_mocha --timeout 30000  --exit --ui bdd  ./unit-tests --recursive",
-    "start": "npm run clean && npm ci && npm run build && npm run cloud",
-    "cloud": "NODE_ENV='cloud' node build/index.js",
+    "start": "npm run clean && npm ci && npm run build && npm run prod",
+    "prod": "NODE_ENV=production node build/index.js",
     "build": "babel server -d build",
-    "clean": "rm -rf ./build"
+    "clean": "rm -rf ./build && rm -rf ./node_modules"
   },
   "keywords": [],
   "author": "",
