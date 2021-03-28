@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const {
-  DEMO_SERVICE_PORT,
+  PORT,
   NODE_ENV,
   LOGGER_LEVEL,
   TOKEN_TTL,
@@ -15,7 +15,7 @@ if (!NODE_ENV) {
 }
 
 const all = {
-  port: DEMO_SERVICE_PORT,
+  port: PORT,
   env: NODE_ENV,
   loggerLevel: LOGGER_LEVEL || 'info',
   TOKEN_TTL: TOKEN_TTL || 600,
@@ -23,9 +23,8 @@ const all = {
 };
 
 let result = all;
-if (NODE_ENV === 'development') {
-  result = _.merge(all, require('./development.js') || {});
-}
+if (NODE_ENV === 'development') result = _.merge(all, require('./development.js') || {});
+if (NODE_ENV === 'unit-test') result = _.merge(all, require('./unit-test.js') || {});
 
 console.info(`Running with configuration: \n${JSON.stringify(result, null, 3)}`);
 

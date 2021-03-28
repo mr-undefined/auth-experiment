@@ -1,6 +1,5 @@
 import authService from '../services/AuthService';
 import logger from '../utils/logger';
-import { isString } from '../utils';
 
 export const signInHandler = (req, res) => {
   try {
@@ -16,7 +15,7 @@ export const signInHandler = (req, res) => {
 export const signOutHandler = (req, res) => {
   try {
     const { uuid } = req;
-    authService.delAllByUUID(uuid);
+    authService.flushTokensForUUID(uuid);
     return res.status(200).send();
   } catch (err) {
     logger.error(`[${err.message}] signOutHandler is failed.  `);
@@ -24,7 +23,7 @@ export const signOutHandler = (req, res) => {
   }
 };
 
-export const signUpHandler = async (req, res) => { // ok
+export const signUpHandler = async (req, res) => {
   try {
     const user = authService.signUpUser(req.body);
     const token = authService.createNewTokenFor(user.uuid);
@@ -32,22 +31,5 @@ export const signUpHandler = async (req, res) => { // ok
   } catch (err) {
     logger.error(`[${err.message}] signUpHandler is failed.  `);
     return res.status(400).json({ error: err.message });
-  }
-};
-
-/**
- * Middleware for express router.
- */
-export const withAuthMiddleware = async (req, res, next) => {
-  try {
-    const tokenString = req.headers.authorization;
-    if (!tokenString && !isString(tokenString)) throw new Error('TOKEN_NOT_FOUND');
-    const [type, token] = tokenString.split(' ');
-    req.uuid = authService.authorize(token, type);
-
-    return next();
-  } catch (err) {
-    logger.error(`[${err.message}] withAuthMiddleware is failed.  `);
-    return res.status(402).json({ error: err.message });
   }
 };

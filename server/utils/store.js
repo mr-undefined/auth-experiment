@@ -20,14 +20,5 @@ function Store(init) {
   });
 }
 
-const initStore = { // TODO: del it
-  '7ff7c131-0e76-4d50-bd1c-54027d3f2e5f': {
-    uuid: '7ff7c131-0e76-4d50-bd1c-54027d3f2e5f',
-    email: 'sasha@i.ua',
-    password: 'qwerty',
-    name: 'Sasha',
-  },
-};
-
 const store = Store();
 export default store();

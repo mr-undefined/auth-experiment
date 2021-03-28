@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import logger from './utils/logger';
-import router from './router';
+import router from './routes';
 import config from './config';
 
 const app = express();

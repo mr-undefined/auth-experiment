@@ -1,35 +1,27 @@
 /* eslint-disable object-curly-newline,func-names */
-import NodeCache from 'node-cache';
-import crypto from 'crypto';
 import logger from '../utils/logger';
 import * as c from '../utils/constants';
 import config from '../config';
-import store from '../utils/store';
 import User from '../models/User';
+import Token from '../models/Token';
 import userService from './UserService';
 
-const { TOKEN_TTL, CACHE_CHECK_PERIOD } = config;
+const { TOKEN_TTL } = config;
 
-const AuthService = function (stdTTL, checkperiod) {
-  const cache = new NodeCache({ stdTTL, checkperiod });
-
+const AuthService = function () {
   this.createNewTokenFor = (uuid) => {
-    const token = this.genNewToken();
-    const result = cache.set(token, uuid);
+    const token = Token.genNewToken();
+    const result = Token.write(token, uuid);
     logger.trace(`[${uuid}] Token was successful created .`);
     if (result) return token;
     throw new Error('createNewTokenFor failed');
   };
 
-  this.genNewToken = () => crypto.randomBytes(8).toString('hex');
-  this.resetTokenTTL = (token) => cache.ttl(token, TOKEN_TTL);
-  this.getUUIDByToken = (token) => cache.get(token);
-
-  this.delAllByUUID = (uuid) => {
-    const allTokens = cache.keys();
-    for (const token of allTokens) {
-      if (cache.get(token) === uuid) cache.del(token);
-    }
+  this.flushTokensForUUID = (uuid) => {
+    const allTokens = Token.getAll();
+    allTokens.forEach((token) => {
+      if (Token.getUUIDByToken(token) === uuid) Token.del(token);
+    });
   };
 
   this.signIn = (body) => {
@@ -58,34 +50,14 @@ const AuthService = function (stdTTL, checkperiod) {
     return availableUser;
   };
 
-  this.getAllKeys = () => {  // TODO: del it
-    const keys = cache.keys();
-    const result = [];
-    keys.forEach((el) => {
-      result.push({
-        token: el,
-        ttl: cache.getTtl(el),
-        uuid: cache.get(el),
-        left: Date.now() - cache.getTtl(el),
-      });
-    });
-
-    return result;
-  };
-
-  this.authorize = (token, type) => {
-    console.log('*****   *****    *****'); // TODO: del it
-    console.log(this.getAllKeys());
-    console.log(store.showAll());
-    console.log('*****   *****    *****');
-
-    logger.trace(`[${type}][${token}] Try to validate token...`);
-    const uuid = this.getUUIDByToken(token);
+  this.authorize = (token) => {
+    logger.trace(`[${token}] Try to validate token...`);
+    const uuid = Token.getUUIDByToken(token);
     if (!uuid) throw new Error(c.WRONG_TOKEN);
-    this.resetTokenTTL(token);
+    Token.updateTTL(token, TOKEN_TTL);
     return uuid;
   };
 };
 
-const authService = new AuthService(TOKEN_TTL, CACHE_CHECK_PERIOD);
+const authService = new AuthService();
 export default authService;

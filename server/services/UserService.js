@@ -1,5 +1,6 @@
 /* eslint-disable object-curly-newline */
 import { v4 as uuid4 } from 'uuid';
+import { validate as uuidValidator } from 'uuid';
 import logger from '../utils/logger';
 import * as c from '../utils/constants';
 import User from '../models/User';
@@ -20,7 +21,7 @@ const UserService = function () {
 
   this.getUser = (uuid) => {
     logger.trace('Try to find user with uuid -', uuid);
-    if (!uuid) throw new Error(c.BAD_UUID);
+    if (!uuid) throw new Error(c.BAD_UUID); // TODO: with uuid validator
     const user = User.getByUUID(uuid);
     if (!user) throw new Error(c.USER_NOT_FOUND);
     return user;
