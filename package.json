@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV='development' nodemon -r @babel/register -r @babel/polyfill server/index.js",
     "build": "babel server -d build",
-    "cloud": "node build/index.js",
+    "start": "node build/index.js",
     "test": "NODE_ENV=unit-test node -r @babel/register -r @babel/polyfill node_modules/mocha/bin/_mocha --timeout 30000  --exit --ui bdd  ./unit-tests --recursive"
   },
   "keywords": [],
