@@ -23,7 +23,7 @@ export const signOutHandler = (req, res) => {
   }
 };
 
-export const signUpHandler = async (req, res) => {
+export const signUpHandler =  (req, res) => {
   try {
     const user = authService.signUpUser(req.body);
     const token = authService.createNewTokenFor(user.uuid);

@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "cross-env NODE_ENV='development' nodemon -r @babel/register -r @babel/polyfill server/index.js",
     "build": "babel server -d build",
-    "start": "node build/index.js",
+    "cloud": "NODE_ENV='development' node build/index.js",
+    "clean": "rm -rf ./build",
+    "start": "npm run build && npm run cloud",
+
     "test": "NODE_ENV=unit-test node -r @babel/register -r @babel/polyfill node_modules/mocha/bin/_mocha --timeout 30000  --exit --ui bdd  ./unit-tests --recursive"
   },
   "keywords": [],
@@ -43,5 +46,8 @@
     "ignore": [
       "unit-tests/*"
     ]
+  },
+  "engines": {
+    "node" : "14.16.0"
   }
 }

@@ -2,7 +2,7 @@ import { isString } from '../utils';
 import authService from '../services/AuthService';
 import logger from '../utils/logger';
 
-const authWithToken = async (req, res, next) => {
+const authWithToken = (req, res, next) => {
   try {
     const tokenString = req.headers.authorization;
     if (!tokenString && !isString(tokenString)) throw new Error('TOKEN_NOT_FOUND');
