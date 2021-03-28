@@ -15,7 +15,7 @@ if (!NODE_ENV) {
 }
 
 const all = {
-  port: PORT,
+  port: PORT || 3000,
   env: NODE_ENV,
   loggerLevel: LOGGER_LEVEL || 'info',
   TOKEN_TTL: TOKEN_TTL || 600,

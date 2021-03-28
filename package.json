@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV='development' nodemon -r @babel/register -r @babel/polyfill server/index.js",
     "build": "babel server -d build",
-    "cloud": "NODE_ENV='development' node build/index.js",
+    "cloud": "NODE_ENV='cloud' node build/index.js",
     "clean": "rm -rf ./build",
     "start": "npm run build && npm run cloud",
 
