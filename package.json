@@ -2,14 +2,14 @@
   "name": "auth_experiment",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV='development' nodemon -r @babel/register -r @babel/polyfill server/index.js",
-    "build": "babel server -d build",
+    "test": "NODE_ENV=unit-test node -r @babel/register -r @babel/polyfill node_modules/mocha/bin/_mocha --timeout 30000  --exit --ui bdd  ./unit-tests --recursive",
+    "start": "npm run clean && npm ci && npm run build && npm run cloud",
     "cloud": "NODE_ENV='cloud' node build/index.js",
-    "clean": "rm -rf ./build",
-    "start": "npm run build && npm run cloud",
-    "test": "NODE_ENV=unit-test node -r @babel/register -r @babel/polyfill node_modules/mocha/bin/_mocha --timeout 30000  --exit --ui bdd  ./unit-tests --recursive"
+    "build": "babel server -d build",
+    "clean": "rm -rf ./build"
   },
   "keywords": [],
   "author": "",
