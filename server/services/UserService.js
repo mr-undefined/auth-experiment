@@ -1,6 +1,5 @@
 /* eslint-disable object-curly-newline */
 import { v4 as uuid4 } from 'uuid';
-import { validate as uuidValidator } from 'uuid';
 import logger from '../utils/logger';
 import * as c from '../utils/constants';
 import User from '../models/User';

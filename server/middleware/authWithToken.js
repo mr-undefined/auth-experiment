@@ -13,7 +13,7 @@ const authWithToken = (req, res, next) => {
 
     return next();
   } catch (err) {
-    logger.error(`[${err.message}] withAuthMiddleware is failed.  `);
+    logger.error(`[${err.message}] authWithToken is failed.  `);
     return res.status(402).json({ error: err.message });
   }
 };

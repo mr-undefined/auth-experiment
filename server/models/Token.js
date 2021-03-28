@@ -20,6 +20,4 @@ Token.getAll = () => cache.keys();
 
 Token.del = (token) => cache.del(token);
 
-
 export default Token;
-
