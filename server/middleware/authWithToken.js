@@ -14,7 +14,7 @@ const authWithToken = (req, res, next) => {
     return next();
   } catch (err) {
     logger.error(`[${err.message}] authWithToken is failed.  `);
-    return res.status(402).json({ error: err.message });
+    return res.status(401).json({ error: err.message });
   }
 };
 

@@ -19,7 +19,7 @@ export const signOutHandler = (req, res) => {
     return res.status(200).send();
   } catch (err) {
     logger.error(`[${err.message}] signOutHandler is failed.  `);
-    return res.status(502).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 };
 
